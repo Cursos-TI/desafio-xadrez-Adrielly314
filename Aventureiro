@@ -1,0 +1,222 @@
+#include <stdio.h>
+
+#define TAMANHO_TABULEIRO 8
+
+// Funções para movimentar as peças
+void moverCavalo(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna);
+void moverTorre(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna);
+void moverBispo(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna);
+void moverRainha(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna);
+void exibirTabuleiro(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO]);
+
+int main() 
+
+{
+    // Criando o tabuleiro
+    char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO] = {0};
+
+    // Exibindo as mensagens iniciais
+    printf("******************************\n");
+    printf("       *  Xadrez  *\n");
+    printf("******************************\n\n");
+
+    int escolha, linha, coluna;
+
+    while (1) 
+    
+    {
+        // Exibindo o tabuleiro
+        exibirTabuleiro(tabuleiro);
+        
+        // Menu para o jogador escolher a peça a mover
+        printf("\nEscolha a peça que você deseja mover:\n");
+        printf("1 - Cavalo\n");
+        printf("2 - Torre\n");
+        printf("3 - Bispo\n");
+        printf("4 - Rainha\n");
+        printf("5 - Sair\n");
+        
+        printf("Escolha: ");
+        scanf("%d", &escolha);
+
+        // Se o jogador quiser sair do jogo
+        if (escolha == 5) 
+        
+        {
+            printf("Saindo do jogo...\n");
+
+            break;
+        }
+
+        // Solicita as coordenadas de onde mover
+        printf("Digite a linha (0 a 7): ");
+        scanf("%d", &linha);
+        printf("Digite a coluna (0 a 7): ");
+        scanf("%d", &coluna);
+
+        // Chama a função de movimentação dependendo da escolha
+        switch (escolha) 
+        
+        {
+            case 1:
+                moverCavalo(tabuleiro, linha, coluna);
+                break;
+
+            case 2:
+                moverTorre(tabuleiro, linha, coluna);
+                break;
+
+            case 3:
+                moverBispo(tabuleiro, linha, coluna);
+                break;
+
+            case 4:
+                moverRainha(tabuleiro, linha, coluna);
+                break;
+
+            default:
+
+                printf("Escolha inválida. Tente novamente.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
+
+// Função de movimentação do Cavalo
+void moverCavalo(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna)
+
+{
+    printf("\nMovimento do Cavalo (duas casas para baixo e uma para a esquerda):\n");
+
+    // O Cavalo se move duas casas para baixo e uma para a esquerda
+    int novaLinha = linha + 2;
+    int novaColuna = coluna - 1;
+
+    // Verificação se o movimento é válido (não sai do tabuleiro)
+    if (novaLinha >= 0 && novaLinha < TAMANHO_TABULEIRO && novaColuna >= 0 && novaColuna < TAMANHO_TABULEIRO) 
+    
+    {
+        tabuleiro[novaLinha][novaColuna] = 'C';
+        tabuleiro[linha][coluna] = 0;  // A posição original fica vazia
+
+        printf("Movimento do Cavalo realizado: Baixo, Baixo, Esquerda\n");
+    } 
+    
+    else 
+    
+    {
+        printf("Movimento inválido! O Cavalo sai do tabuleiro.\n");
+    }
+}
+
+// Função de movimentação da Torre
+void moverTorre(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna) 
+
+{
+    printf("\nMovimento da Torre (se move em linha reta horizontal ou vertical):\n");
+
+    // A Torre pode se mover para a direita, esquerda, cima ou baixo
+    int novaLinha, novaColuna;
+
+    // Exemplo simples: mover para uma nova posição dentro das possibilidades
+    novaLinha = linha + 1;  // Movendo uma casa para baixo
+    novaColuna = coluna;    // Mantendo a mesma coluna
+
+    if (novaLinha >= 0 && novaLinha < TAMANHO_TABULEIRO) 
+    
+    {
+        tabuleiro[novaLinha][novaColuna] = 'T';
+        tabuleiro[linha][coluna] = 0;
+        printf("Movimento da Torre realizado: Baixo\n");
+    } 
+    
+    else 
+    
+    {
+        printf("Movimento inválido! A Torre sai do tabuleiro.\n");
+    }
+}
+
+// Função de movimentação do Bispo
+void moverBispo(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna)
+
+{
+    printf("\nMovimento do Bispo (se move na diagonal):\n");
+
+    // Exemplo de movimento do Bispo: mover para a diagonal superior direita
+    int novaLinha = linha - 1;
+    int novaColuna = coluna + 1;
+
+    if (novaLinha >= 0 && novaLinha < TAMANHO_TABULEIRO && novaColuna >= 0 && novaColuna < TAMANHO_TABULEIRO) 
+    
+    {
+        tabuleiro[novaLinha][novaColuna] = 'B';
+        tabuleiro[linha][coluna] = 0;
+
+        printf("Movimento do Bispo realizado: Cima-Direita\n");
+    } 
+    
+    else 
+    
+    {
+        printf("Movimento inválido! O Bispo sai do tabuleiro.\n");
+    }
+}
+
+// Função de movimentação da Rainha
+void moverRainha(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO], int linha, int coluna) 
+
+{
+    printf("\nMovimento da Rainha (se move como a Torre ou o Bispo):\n");
+
+    // A Rainha pode se mover tanto em linha reta (como a Torre) quanto em diagonal (como o Bispo)
+    int novaLinha = linha + 1;
+    int novaColuna = coluna;
+
+    // Exemplo de movimento da Rainha: movendo para baixo
+    if (novaLinha >= 0 && novaLinha < TAMANHO_TABULEIRO) 
+    
+    {
+        tabuleiro[novaLinha][novaColuna] = 'Q';
+        tabuleiro[linha][coluna] = 0;
+
+        printf("Movimento da Rainha realizado: Baixo\n");
+
+    } 
+    
+    else 
+    
+    {
+        printf("Movimento inválido! A Rainha sai do tabuleiro.\n");
+    }
+}
+
+// Função para exibir o tabuleiro
+void exibirTabuleiro(char tabuleiro[TAMANHO_TABULEIRO][TAMANHO_TABULEIRO]) 
+
+{
+    printf("\nTabuleiro:\n");
+
+    for (int i = 0; i < TAMANHO_TABULEIRO; i++)
+    
+    {
+        for (int j = 0; j < TAMANHO_TABULEIRO; j++)
+        
+        {
+            if (tabuleiro[i][j] == 0) 
+            
+            {
+                printf(". ");  // Espaço vazio
+            } 
+            
+            else 
+            
+            {
+                printf("%c ", tabuleiro[i][j]);  // Imprime a peça
+            }
+        }
+        printf("\n");
+    }
+}
