@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    char Nome1[60];
+    int Idade1, Nascimento1;
+    char Tutorial[20];
+
+    printf("\n    ===== XADREZ - NÍVEL NOVATO =====\n");
+
+    printf("Olá novo jogador. Qual é o seu nome? ");
+    if (scanf(" %[^\n]", Nome1) != 1) return 1;
+
+    printf("Nome bonito o seu! Qual é a sua idade? ");
+    if (scanf("%d", &Idade1) != 1) return 1;
+
+    printf("Quando você nasceu? (Digite apenas o ano, ex: 2013) ");
+    if (scanf("%d", &Nascimento1) != 1) return 1;
+
+    while (getchar() != '\n'); // Limpa o buffer do teclado
+
+    printf("Deseja receber o tutorial? (Sim ou Não) ");
+    if (scanf(" %[^\n]", Tutorial) != 1) return 1;
+
+    if (strcmp(Tutorial, "Sim") == 0) {
+        printf("\n===== TUTORIAL =====\n");
+        printf("Neste programa, vamos simular os movimentos de três peças de xadrez: Torre, Bispo e Rainha.\n");
+        printf("Cada peça se move de forma diferente, e vamos representar isso usando estruturas de repetição.\n");
+        printf("- A Torre se move em linha reta na horizontal ou vertical. Vamos simular 5 casas para a Direita.\n");
+        printf("- O Bispo se move na diagonal. Vamos simular 5 casas na Diagonal para Cima e Direita.\n");
+        printf("- A Rainha se move em todas as direções. Vamos simular 8 casas para a Esquerda.\n");
+    } else {
+        printf("Ok! Vamos prosseguir então.\n\n");
+    }
+
+    if (Idade1 >= 18)
+        printf("\nBem-vindo(a), %s! Prepare-se para usar sua lógica e estratégia.\n\n", Nome1);
+    else
+        printf("\nOi %s! Vamos nos divertir aprendendo juntos com o xadrez!\n\n", Nome1);
+
+    const char *Pecas[] = {"Torre", "Bispo", "Rainha"};
+    int escolha;
+
+    printf("As Peças disponíveis são:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("%d - %s\n", i + 1, Pecas[i]);
+    }
+
+    printf("\n%s, escolha sua peça (1 a 3): ", Nome1);
+    if (scanf("%d", &escolha) != 1 || escolha < 1 || escolha > 3) {
+        printf("Escolha inválida.\n");
+        return 1;
+    }
+
+    escolha--; // Ajusta para índice do vetor
+    printf("\n===== MOVIMENTAÇÃO DA %s =====\n", Pecas[escolha]);
+
+    switch (escolha) {
+        case 0: // Torre - for
+            printf("Movimento: para a Direita a\n");
+            for (int i = 1; i <= 5; i++) {
+                printf("Casa %d à Direita\n", i);
+            }
+            break;
+
+        case 1: // Bispo - while
+            printf("Movimento: Diagonal para Cima e Direita (WHILE)\n");
+            int j = 1;
+            while (j <= 5) {
+                printf("Diagonal %d para Cima e Direita\n", j);
+                j++;
+            }
+            break;
+
+        case 2: // Rainha - do-while
+            printf("Movimento: para a Esquerda (DO-WHILE)\n");
+            int k = 1;
+            do {
+                printf("Casa %d à Esquerda\n", k);
+                k++;
+            } while (k <= 8);
+            break;
+    }
+
+    printf("\nObrigada por jogar! Em breve, novas fases com o Cavalo e desafios mais avançados!\n");
+    return 0;
+}
